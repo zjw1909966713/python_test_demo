@@ -1,3 +1,4 @@
+from pathlib import Path
 import pygame
 from pygame.sprite import Group
 
@@ -78,9 +79,15 @@ class Scoreboard:
         self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
         self.ships.draw(self.screen)
+    
+        
+    def update_high_score_txt(self,high_score):
+        """把最高分写入文件"""
+        Path('score.txt').write_text(high_score)
 
     def check_high_score(self):
         """检查是否诞生了新的最高分"""
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
+            self.update_high_score_txt(str(self.stats.score))
             self.prep_high_score()
